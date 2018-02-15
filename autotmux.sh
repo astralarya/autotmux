@@ -1,5 +1,5 @@
-# autoscreen
-# auto start a GNU screen session without inception
+# autotmux
+# auto start a tmux session without inception
 #
 # Copyright (C) 2013 Mara Kim
 #
@@ -21,15 +21,15 @@
 # source this file at the very END (important!)
 # of your shell's .*rc file
 
-# automatic screen start
-_autoscreen() {
+# automatic tmux start
+_autotmux() {
  if [ "$1" = "-h" -o "$1" = "--help" ]
  then
   printf 'Usage: Source this script at the END of your .bashrc with:
 
-  source /path/to/autoscreen.sh [HOSTNAME] [STARTWAIT] [EXITWAIT]
+  source /path/to/autotmux.sh [HOSTNAME] [STARTWAIT] [EXITWAIT]
 
-Automatically start a GNU screen session without inception.
+Automatically start a tmux session without inception.
 If HOSTNAME is not empty, check that $HOSTNAME = HOSTNAME before starting (wildcards allowed).
 Waits STARTWAIT seconds before start (default 2). 
 Waits EXITWAIT seconds before exit (default 1).
@@ -63,9 +63,9 @@ Option		GNU long option		Meaning
  local RGOOD
  local LENGTH
  
- if [[ -z "$STY" && "$TERM" != "dumb" && (-z "$MYTEST" || "$HOSTNAME" = $MYTEST) ]]
+ if [[ -z "$STY" && -z "$TMUX" && "$TERM" != "dumb" && (-z "$MYTEST" || "$HOSTNAME" = $MYTEST) ]]
  then
-  printf "Starting screen. ^C to cancel... "
+  printf "Starting tmux. ^C to cancel... "
   # countdown
   for((i=STARTWAIT;i>0;i--))
   do
@@ -83,10 +83,10 @@ Option		GNU long option		Meaning
   done
   printf '0\n'
   RGOOD=""
-  # start screen session
-  # clear screen
-  screen -D -RR && clear &&
-  printf "Screen terminated. Exiting. ^C to cancel... " &&
+  # start tmux session
+  tmux has-session -t autotmux && tmux attach-session -t autotmux || tmux new-session -s autotmux &&
+  clear &&
+  printf "Tmux terminated. Exiting. ^C to cancel... " &&
   # countdown
   for((i=EXITWAIT;i>0;i--))
   do
@@ -111,11 +111,11 @@ Option		GNU long option		Meaning
  exit
 }
 
-# interactive screen start
-autoscreen () {
- screen -D -RR && clear &&
- printf "Screen terminated.\n"
+# interactive tmux start
+autotmux () {
+ tmux has-session -t autotmux && tmux attach-session -t autotmux || tmux new-session -s autotmux &&
+ printf "Tmux terminated.\n"
 }
 
-# start autoscreen on source
-_autoscreen "$@"
+# start autotmux on source
+_autotmux "$@"

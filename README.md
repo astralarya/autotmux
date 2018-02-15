@@ -1,13 +1,13 @@
-# autoscreen
+# autotmux
 
-**autoscreen** - Automatically start GNU screen without inception
+**autotmux** - Automatically start `tmux` without inception
 
 
 ## Installation
 
-Source `autoscreen.sh` at the very **END** of your .\*rc file.
+Source `autotmux.sh` at the very **END** of your .\*rc file.
 
-    source /path/to/autoscreen.sh [HOSTNAME] [STARTWAIT] [EXITWAIT]
+    source /path/to/autotmux.sh [HOSTNAME] [STARTWAIT] [EXITWAIT]
 
 If *HOSTNAME* is not empty, check that $HOSTNAME = *HOSTNAME* before starting (wildcards allowed).  
 Waits *STARTWAIT* seconds before starting screen (default 3).   
@@ -19,7 +19,7 @@ When you start your shell, you will be notified that you are about to enter a sc
 When your screen session ends, you will be notified that your shell will exit (^C to cancel).  
 You can skip the countdown with any key besides ^C.  
 
-For help using GNU screen see the [GNU screen manual](http://www.gnu.org/software/screen/manual/screen.html).
+For help using **tmux** see the [tmux manual](http://man.openbsd.org/OpenBSD-current/man1/tmux.1).
 
 ## Dependencies
 
